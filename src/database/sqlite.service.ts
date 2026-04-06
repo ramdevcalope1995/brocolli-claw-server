@@ -2,6 +2,8 @@ import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import configuration from '../config/configuration';
 import Database from 'better-sqlite3';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface AgentMetadata {
   id: string;
@@ -24,17 +26,31 @@ export interface SessionMetadata {
 @Injectable()
 export class SqliteService implements OnModuleInit {
   private db: Database.Database;
+  private dbPath: string;
 
   constructor(
     @Inject(configuration.KEY)
     private readonly config: ConfigType<typeof configuration>,
-  ) {}
+  ) {
+    this.dbPath = this.config.database.path;
+    
+    // Ensure directory exists (important for Docker)
+    const dir = path.dirname(this.dbPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+      console.log(`Created database directory: ${dir}`);
+    }
+  }
 
   async onModuleInit(): Promise<void> {
-    const dbPath = this.config.database.path;
-    this.db = new Database(dbPath);
-    this.initializeTables();
-    console.log(`SQLite database initialized at ${dbPath}`);
+    try {
+      this.db = new Database(this.dbPath);
+      this.initializeTables();
+      console.log(`SQLite database initialized at ${this.dbPath}`);
+    } catch (error) {
+      console.error('Failed to initialize SQLite database:', error);
+      throw error;
+    }
   }
 
   private initializeTables(): void {
