@@ -1,98 +1,192 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Agentic AI Backend - NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Production-ready NestJS backend for an agentic AI system with multi-agent orchestration, tool calling, memory management, and workflow execution.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Architecture
 
-## Description
+- **NestJS**: Main API orchestrator
+- **LangGraph**: Agent runtime with Qwen 3.6 model
+- **E2B**: Secure code execution sandbox
+- **Upstash Redis**: Caching and session memory
+- **Upstash Vector DB**: Embeddings and long-term memory
+- **SQLite**: Metadata storage
+- **Inngest**: Async workflows
+- **Telegram Bot**: Primary user interface
+- **LangSmith**: Tracing and monitoring
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Project setup
+- ✅ Multi-agent orchestration
+- ✅ Tool calling (Tavily, Firecrawl, Skyvern, Code Execution)
+- ✅ Short-term + Vector memory
+- ✅ Browser automation (Skyvern)
+- ✅ Voice call automation ready (VAPI)
+- ✅ Workflow execution via Inngest
+- ✅ LangSmith tracing integration
+- ✅ Telegram bot UI
 
-```bash
-$ npm install
-```
+## Environment Variables
 
-## Compile and run the project
+Copy `.env.example` to `.env` and configure:
 
 ```bash
-# development
-$ npm run start
+# Telegram Bot Configuration
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 
-# watch mode
-$ npm run start:dev
+# Upstash Redis Configuration
+UPSTASH_REDIS_URL=https://your-redis.upstash.io
+UPSTASH_REDIS_TOKEN=your_redis_token
 
-# production mode
-$ npm run start:prod
+# Upstash Vector DB Configuration
+UPSTASH_VECTOR_URL=https://your-vector.upstash.io
+UPSTASH_VECTOR_TOKEN=your_vector_token
+
+# OpenAI/Qwen Model Configuration
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_BASE_URL=https://api.openai.com/v1
+AI_MODEL=qwen-3.6
+
+# E2B Code Execution Configuration
+E2B_API_KEY=your_e2b_api_key
+
+# Inngest Workflow Configuration
+INNGEST_EVENT_KEY=your_inngest_event_key
+INNGEST_SIGNING_KEY=your_inngest_signing_key
+
+# Tavily Search Configuration
+TAVILY_API_KEY=your_tavily_api_key
+
+# Firecrawl Web Scraping Configuration
+FIRECRAWL_API_KEY=your_firecrawl_api_key
+
+# Skyvern Browser Automation Configuration
+SKYVERN_API_KEY=your_skyvern_api_key
+SKYVERN_BASE_URL=https://api.skyvern.com
+
+# VAPI Voice Agent Configuration
+VAPI_API_KEY=your_vapi_api_key
+
+# MCP Context7 Configuration
+MCP_CONTEXT7_API_KEY=your_mcp_context7_api_key
+
+# LangSmith Trace Configuration
+LANGSMITH_API_KEY=your_langsmith_api_key
+LANGSMITH_PROJECT=agentic-ai-system
+LANGSMITH_TRACING_ENABLED=true
+
+# SQLite Database Path
+SQLITE_DB_PATH=./data/metadata.db
 ```
 
-## Run tests
+## Installation
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Development
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Production
 
-## Resources
+```bash
+npm run build
+npm run start:prod
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Project Structure
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
+src/
+├── app.module.ts                 # Root module
+├── app.controller.ts             # Root controller
+├── app.service.ts                # Root service
+├── main.ts                       # Entry point
+├── config/
+│   └── configuration.ts          # Environment configuration
+├── agent/
+│   ├── agent.module.ts           # Agent module
+│   ├── runtime/
+│   │   ├── agent-runtime.service.ts    # Agent runtime logic
+│   │   ├── langgraph-executor.ts       # LangGraph integration
+│   │   └── index.ts
+│   └── tools/
+│       ├── base-tool.interface.ts      # Tool interface
+│       ├── tavily-search.tool.ts       # Web search
+│       ├── firecrawl.tool.ts           # Web scraping
+│       ├── skyvern.tool.ts             # Browser automation
+│       ├── code-execution.tool.ts      # Code execution (E2B)
+│       ├── langsmith-trace.tool.ts     # LangSmith tracing
+│       └── index.ts
+├── cache/
+│   └── redis-cache.service.ts    # Redis caching
+├── database/
+│   └── sqlite.service.ts         # SQLite metadata storage
+├── vector/
+│   └── upstash-vector.service.ts # Vector database
+├── inngest/
+│   └── inngest.service.ts        # Workflow engine
+├── telegram/
+│   └── telegram.service.ts       # Telegram bot
+├── frontend/
+│   └── agent-config.controller.ts # Agent configuration API
+└── types/
+    └── agent.types.ts            # Type definitions
+```
 
-## Support
+## Available Tools
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+1. **Tavily Search** - Web search for current information
+2. **Firecrawl** - Web scraping and crawling
+3. **Skyvern** - Browser automation tasks
+4. **Code Execution** - Secure code execution via E2B
+5. **LangSmith Trace** - Execution tracing and monitoring
 
-## Stay in touch
+## API Endpoints
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Agent Configuration
+
+- `GET /agents` - List all agents
+- `GET /agents/:id` - Get agent by ID
+- `POST /agents` - Create new agent
+- `PUT /agents/:id` - Update agent
+- `DELETE /agents/:id` - Delete agent
+
+### Example Agent Configuration
+
+```json
+{
+  "id": "sales-agent",
+  "name": "Sales Assistant",
+  "description": "AI assistant for sales calls and lead qualification",
+  "systemPrompt": "You are a helpful sales assistant...",
+  "tools": ["tavily_search", "firecrawl"],
+  "model": "qwen-3.6"
+}
+```
+
+## Telegram Bot Commands
+
+- `/start` - Start the bot
+- `/help` - Show help message
+- `/agents` - List available agents and tools
+- `/new` - Start new conversation
+- `/clear` - Clear conversation history
+
+## LangSmith Integration
+
+When `LANGSMITH_TRACING_ENABLED=true`, all agent executions and tool calls are automatically traced in LangSmith for:
+
+- Debugging
+- Performance monitoring
+- Cost tracking
+- Error analysis
+
+View traces at: https://smith.langchain.com
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+UNLICENSED
